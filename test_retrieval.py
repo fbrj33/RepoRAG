@@ -5,6 +5,7 @@ from rag.embeddings import EmbeddingModel
 from rag.vectorstore import VectorStore
 from rag.splitter import split_documents
 from rag.context import build_context
+from rag.generator import CodeGenerator
 
 
 
@@ -79,9 +80,16 @@ results = retriever.retrieve(
     k=5,
 )
 context = build_context(results)
+generator = CodeGenerator()
 
-print("\n===== GENERATED CONTEXT =====")
-print(context)
+answer = generator.generate(
+    question=question,
+    context=context,
+)
+
+print("\n===== GENERATED ANSWER =====")
+print(answer)
+
 
 
 
