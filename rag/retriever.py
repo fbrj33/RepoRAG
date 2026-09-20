@@ -1,15 +1,28 @@
 from rag.embeddings import EmbeddingModel
 from rag.vectorstore import VectorStore
+
+
 class CodeRetriever:
-    def __init__(self, vector_store: VectorStore,
+    """Retrieve relevant code chunks for a user query."""
+
+    def __init__(
+        self,
+        vector_store: VectorStore,
         embedding_model: EmbeddingModel,
-        ):
+    ):
         self.vector_store = vector_store
         self.embedding_model = embedding_model
 
-    def retrieve(self,query:str,
-                 k:int=5) -> list[dict]:
-        query_embedding = self.embedding_model.embed_query(query)
+    def retrieve(
+        self,
+        query: str,
+        k: int = 5,
+    ) -> list[dict]:
+        """Retrieve the most relevant code chunks."""
+
+        query_embedding = (
+            self.embedding_model.embed_query(query)
+        )
 
         results = self.vector_store.search(
             query_embedding,
@@ -31,6 +44,7 @@ class CodeRetriever:
                 {
                     "content": document,
                     "file_path": metadata["file_path"],
+                    "chunk_id": metadata["chunk_id"],
                     "type": metadata["type"],
                     "name": metadata["name"],
                     "start_line": metadata["start_line"],

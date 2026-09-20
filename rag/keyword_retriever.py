@@ -92,16 +92,17 @@ class KeywordRetriever:
             chunk = self.chunks[index]
 
             results.append(
-                {
-                    "content": chunk["content"],
-                    "file_path": chunk["file_path"],
-                    "type": chunk["type"],
-                    "name": chunk["name"],
-                    "start_line": chunk["start_line"],
-                    "end_line": chunk["end_line"],
-                    "keyword_score": float(scores[index]),
-                }
-            )
+    {
+        "content": chunk["content"],
+        "file_path": chunk["file_path"],
+        "chunk_id": chunk["chunk_id"],
+        "type": chunk["type"],
+        "name": chunk["name"],
+        "start_line": chunk["start_line"],
+        "end_line": chunk["end_line"],
+        "keyword_score": float(scores[index]),
+    }
+)
 
             
             if len(results) >= k:
