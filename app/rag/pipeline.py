@@ -1,13 +1,25 @@
 from rag.hybrid_retrieval import HybridRetriever
+from rag.index_manager import RepositoryIndex
 from rag.reranker import CodeReranker
 
+
 class RetrievalPipeline:
+    """Complete retrieval pipeline."""
+
     def __init__(
-            self,
-            hybrid_retriever: HybridRetriever,
-            reranker: CodeReranker,
+        self,
+        repository_index: RepositoryIndex,
+        reranker: CodeReranker,
     ):
-        self.hybrid_retriever = hybrid_retriever
+        self.hybrid_retriever = HybridRetriever(
+            semantic_retriever=(
+                repository_index.semantic_retriever
+            ),
+            keyword_retriever=(
+                repository_index.keyword_retriever
+            ),
+        )
+
         self.reranker = reranker
 
     def retrieve(
@@ -17,13 +29,13 @@ class RetrievalPipeline:
         top_k: int = 3,
     ) -> list[dict]:
 
-        hybrid_results = self.hybrid_retriever.retrieve(
+        candidates = self.hybrid_retriever.retrieve(
             query=query,
             k=candidate_k,
         )
-        reranked_results = self.reranker.rerank(
+
+        return self.reranker.rerank(
             query=query,
-            chunks=hybrid_results,
+            chunks=candidates,
             top_k=top_k,
         )
-        return reranked_results

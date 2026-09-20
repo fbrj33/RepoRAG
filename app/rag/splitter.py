@@ -42,6 +42,7 @@ def split_python_file(
                 "content": code,
                 "file_path": file_path,
                 "extension": ".py",
+                "document_type": "code",
                 "chunk_id": len(chunks),
                 "type": (
                     "class"
@@ -76,6 +77,7 @@ def split_generic_file(
             "content": chunk,
             "file_path": file_path,
             "extension": extension,
+            "document_type": "code",
             "chunk_id": index,
             "type": "text",
             "name": None,
@@ -85,24 +87,41 @@ def split_generic_file(
         for index, chunk in enumerate(text_chunks)
     ]
 
-
 def split_documents(documents: list[dict]) -> list[dict]:
     """Split repository documents using code-aware strategies."""
 
     chunks = []
 
     for document in documents:
-        if document["extension"] == ".py":
+
+        if document["document_type"] == "documentation":
+            file_chunks = split_generic_file(
+                document["content"],
+                document["file_path"],
+                document["extension"],
+            )
+
+            for chunk in file_chunks:
+                chunk["document_type"] = "documentation"
+
+        elif document["extension"] == ".py":
             file_chunks = split_python_file(
                 document["content"],
                 document["file_path"],
             )
+
+            for chunk in file_chunks:
+                chunk["document_type"] = "code"
+
         else:
             file_chunks = split_generic_file(
                 document["content"],
                 document["file_path"],
                 document["extension"],
             )
+
+            for chunk in file_chunks:
+                chunk["document_type"] = "code"
 
         chunks.extend(file_chunks)
 

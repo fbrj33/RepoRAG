@@ -33,24 +33,25 @@ class VectorStore:
             documents.append(chunk["content"])
 
             metadatas.append(
-                {
-                    "file_path": chunk["file_path"],
-                    "extension": chunk["extension"],
-                    "chunk_id": chunk["chunk_id"],
-                    "type": chunk["type"],
-                    "name": chunk["name"] or "",
-                    "start_line": (
-                        chunk["start_line"]
-                        if chunk["start_line"] is not None
-                        else -1
-                    ),
-                    "end_line": (
-                        chunk["end_line"]
-                        if chunk["end_line"] is not None
-                        else -1
-                    ),
-                }
-            )
+    {
+        "file_path": chunk["file_path"],
+        "extension": chunk["extension"],
+        "document_type": chunk["document_type"],
+        "chunk_id": chunk["chunk_id"],
+        "type": chunk["type"],
+        "name": chunk["name"] or "",
+        "start_line": (
+            chunk["start_line"]
+            if chunk["start_line"] is not None
+            else -1
+        ),
+        "end_line": (
+            chunk["end_line"]
+            if chunk["end_line"] is not None
+            else -1
+        ),
+    }
+)
 
             ids.append(
                 f"{chunk['file_path']}::{chunk['chunk_id']}"

@@ -1,3 +1,4 @@
+
 from rag.embeddings import EmbeddingModel
 from rag.vectorstore import VectorStore
 
@@ -18,7 +19,7 @@ class CodeRetriever:
         query: str,
         k: int = 5,
     ) -> list[dict]:
-        """Retrieve the most relevant code chunks."""
+        """Retrieve relevant code chunks while excluding documentation."""
 
         query_embedding = (
             self.embedding_model.embed_query(query)
@@ -40,6 +41,11 @@ class CodeRetriever:
             metadatas,
             distances,
         ):
+            # README and other documentation are excluded
+            # from normal code retrieval.
+            if metadata.get("document_type") == "documentation":
+                continue
+
             retrieved_chunks.append(
                 {
                     "content": document,
@@ -50,6 +56,10 @@ class CodeRetriever:
                     "start_line": metadata["start_line"],
                     "end_line": metadata["end_line"],
                     "distance": distance,
+                    "document_type": metadata.get(
+                        "document_type",
+                        "code",
+                    ),
                 }
             )
 
