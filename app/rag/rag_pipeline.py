@@ -1,6 +1,6 @@
-from rag.context import build_context
-from rag.generator import CodeGenerator
-from rag.pipeline import RetrievalPipeline
+from app.rag.context import build_context
+from app.rag.generator import CodeGenerator
+from app.rag.pipeline import RetrievalPipeline
 
 
 class RagPipeline:

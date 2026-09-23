@@ -1,6 +1,6 @@
 
-from rag.embeddings import EmbeddingModel
-from rag.vectorstore import VectorStore
+from app.rag.embeddings import EmbeddingModel
+from app.rag.vectorstore import VectorStore
 
 
 class CodeRetriever:

@@ -1,6 +1,6 @@
-from rag.hybrid_retrieval import HybridRetriever
-from rag.index_manager import RepositoryIndex
-from rag.reranker import CodeReranker
+from app.rag.hybrid_retrieval import HybridRetriever
+from app.rag.index_manager import RepositoryIndex
+from app.rag.reranker import CodeReranker
 
 
 class RetrievalPipeline:

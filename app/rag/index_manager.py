@@ -1,25 +1,20 @@
 from pathlib import Path
 
-from rag.embeddings import EmbeddingModel
-from rag.keyword_retriever import KeywordRetriever
-from rag.retriever import CodeRetriever
-from rag.vectorstore import VectorStore
-
-
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
+from app.rag.keyword_retriever import KeywordRetriever
+from app.rag.retriever import CodeRetriever
+from app.rag.vectorstore import VectorStore
 
 
 class RepositoryIndex:
-    """Load all indexes belonging to a repository."""
+    """Load indexes for one repository."""
 
     def __init__(
         self,
         index_path: str,
         collection_name: str,
+        embedding_model,
     ):
-        self.index_path = PROJECT_ROOT / index_path
-
-        self.embedding_model = EmbeddingModel()
+        self.index_path = Path(index_path)
 
         self.vector_store = VectorStore(
             persist_directory=str(
@@ -30,9 +25,11 @@ class RepositoryIndex:
 
         self.semantic_retriever = CodeRetriever(
             vector_store=self.vector_store,
-            embedding_model=self.embedding_model,
+            embedding_model=embedding_model,
         )
 
         self.keyword_retriever = KeywordRetriever.load(
-            str(self.index_path / "chunks.json")
+            str(
+                self.index_path / "chunks.json"
+            )
         )

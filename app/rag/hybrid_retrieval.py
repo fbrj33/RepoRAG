@@ -1,5 +1,5 @@
-from rag.retriever import CodeRetriever
-from rag.keyword_retriever import KeywordRetriever
+from app.rag.retriever import CodeRetriever
+from app.rag.keyword_retriever import KeywordRetriever
 
 
 class HybridRetriever:

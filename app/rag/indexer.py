@@ -1,13 +1,13 @@
 from pathlib import Path
 
-from rag.embeddings import EmbeddingModel
-from rag.keyword_retriever import KeywordRetriever
-from rag.loader import load_repository
-from rag.splitter import split_documents
-from rag.vectorstore import VectorStore
-
-
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
+from app.core.config import (
+    EMBEDDING_MODEL,
+)
+from app.rag.embeddings import EmbeddingModel
+from app.rag.keyword_retriever import KeywordRetriever
+from app.rag.loader import load_repository
+from app.rag.splitter import split_documents
+from app.rag.vectorstore import VectorStore
 
 
 class RepositoryIndexer:
@@ -19,10 +19,28 @@ class RepositoryIndexer:
         index_path: str,
         collection_name: str,
     ):
-        self.repository_path = PROJECT_ROOT / repository_path
-        self.index_path = PROJECT_ROOT / index_path
+        self.repository_path = Path(
+            repository_path
+        )
 
-        self.embedding_model = EmbeddingModel()
+        self.index_path = Path(
+            index_path
+        )
+
+        self.index_path.mkdir(
+            parents=True,
+            exist_ok=True,
+        )
+
+        self.collection_name = (
+            collection_name
+        )
+
+        self.embedding_model = (
+            EmbeddingModel(
+                model_name=EMBEDDING_MODEL
+            )
+        )
 
         self.vector_store = VectorStore(
             persist_directory=str(
@@ -32,7 +50,6 @@ class RepositoryIndexer:
         )
 
     def index(self) -> dict:
-        """Load, split, embed and persist repository indexes."""
 
         documents = load_repository(
             str(self.repository_path)
@@ -42,7 +59,9 @@ class RepositoryIndexer:
             f"Files loaded: {len(documents)}"
         )
 
-        chunks = split_documents(documents)
+        chunks = split_documents(
+            documents
+        )
 
         print(
             f"Chunks generated: {len(chunks)}"
@@ -50,18 +69,16 @@ class RepositoryIndexer:
 
         if not chunks:
             raise ValueError(
-                "No supported files were found "
-                "in the repository."
+                "No supported files found."
             )
 
-        print("Building BM25 index...")
-
-        keyword_retriever = KeywordRetriever(
-            chunks
+        keyword_retriever = (
+            KeywordRetriever(chunks)
         )
 
         keyword_index_path = (
-            self.index_path / "chunks.json"
+            self.index_path
+            / "chunks.json"
         )
 
         keyword_retriever.save(
@@ -69,14 +86,12 @@ class RepositoryIndexer:
         )
 
         print(
-            f"BM25 index saved to: "
-            f"{keyword_index_path}"
+            "Generating embeddings..."
         )
 
-        print("Generating embeddings...")
-
         embeddings = (
-            self.embedding_model.embed_documents(
+            self.embedding_model
+            .embed_documents(
                 [
                     chunk["content"]
                     for chunk in chunks
@@ -84,52 +99,22 @@ class RepositoryIndexer:
             )
         )
 
-        print("Storing chunks in Chroma...")
+        print(
+            "Storing vectors..."
+        )
 
         self.vector_store.add_chunks(
             chunks=chunks,
             embeddings=embeddings,
         )
 
-        print("Indexing completed.")
-
         return {
             "files": len(documents),
             "chunks": len(chunks),
-            "index_path": str(self.index_path),
+            "index_path": str(
+                self.index_path
+            ),
+            "collection_name": (
+                self.collection_name
+            ),
         }
-
-
-if __name__ == "__main__":
-
-    REPOSITORY_PATH = (
-        "data/repositories/real_project"
-    )
-
-    INDEX_PATH = (
-        "data/indexes/real_project"
-    )
-
-    indexer = RepositoryIndexer(
-        repository_path=REPOSITORY_PATH,
-        index_path=INDEX_PATH,
-        collection_name="real_project",
-    )
-
-    result = indexer.index()
-
-    print("\n================================")
-    print("INDEXING SUMMARY")
-    print("================================")
-
-    print(
-        f"Files: {result['files']}"
-    )
-
-    print(
-        f"Chunks: {result['chunks']}"
-    )
-
-    print(
-        f"Index: {result['index_path']}"
-    )
