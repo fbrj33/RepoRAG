@@ -1,14 +1,36 @@
 {
   "python-backend-sample_d97eb9e4": {
     "repository_id": "python-backend-sample_d97eb9e4",
-    "repo_url": "https://github.com/th-santos/python-backend-sample",
+    "repository_url": "https://github.com/th-santos/python-backend-sample",
     "repository_path": "C:\\Users\\farah\\OneDrive\\Documents\\RepoRAG\\data\\repositories\\python-backend-sample_d97eb9e4",
-    "index_path": "C:\\Users\\farah\\OneDrive\\Documents\\RepoRAG\\data\\indexes\\python-backend-sample_d97eb9e4"
+    "index_path": "C:\\Users\\farah\\OneDrive\\Documents\\RepoRAG\\data\\indexes\\python-backend-sample_d97eb9e4",
+    "status": "indexed"
   },
   "httpx_c9226c2f": {
     "repository_id": "httpx_c9226c2f",
     "repo_url": "https://github.com/encode/httpx",
     "repository_path": "C:\\Users\\farah\\OneDrive\\Documents\\RepoRAG\\data\\repositories\\httpx_c9226c2f",
     "index_path": "C:\\Users\\farah\\OneDrive\\Documents\\RepoRAG\\data\\indexes\\httpx_c9226c2f"
+  },
+  "flask-sample-app_320ebab2": {
+    "repository_id": "flask-sample-app_320ebab2",
+    "repository_url": "https://github.com/ubc/flask-sample-app",
+    "repository_path": "C:\\Users\\farah\\OneDrive\\Documents\\RepoRAG\\data\\repositories\\flask-sample-app_320ebab2",
+    "index_path": "C:\\Users\\farah\\OneDrive\\Documents\\RepoRAG\\data\\indexes\\flask-sample-app_320ebab2",
+    "status": "indexed"
+  },
+  "fastapi-realworld-example-app_20407982": {
+    "repository_id": "fastapi-realworld-example-app_20407982",
+    "repository_url": "https://github.com/DataDog/fastapi-realworld-example-app",
+    "repository_path": "C:\\Users\\farah\\OneDrive\\Documents\\RepoRAG\\data\\repositories\\fastapi-realworld-example-app_20407982",
+    "index_path": "C:\\Users\\farah\\OneDrive\\Documents\\RepoRAG\\data\\indexes\\fastapi-realworld-example-app_20407982",
+    "status": "indexed"
+  },
+  "flutter_ecommerce_app_b41f2044": {
+    "repository_id": "flutter_ecommerce_app_b41f2044",
+    "repository_url": "https://github.com/TheAlphamerc/flutter_ecommerce_app",
+    "repository_path": "C:\\Users\\farah\\OneDrive\\Documents\\RepoRAG\\data\\repositories\\flutter_ecommerce_app_b41f2044",
+    "index_path": "C:\\Users\\farah\\OneDrive\\Documents\\RepoRAG\\data\\indexes\\flutter_ecommerce_app_b41f2044",
+    "status": "indexed"
   }
 }

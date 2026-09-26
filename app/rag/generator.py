@@ -2,43 +2,35 @@ import ollama
 
 
 class CodeGenerator:
-    """Generate grounded answers using a local LLM."""
-
-    def __init__(
-        self,
-        model_name: str = "llama3.2:3b",
-    ):
+    def __init__(self, model_name: str = "llama3.2:3b"):
         self.model_name = model_name
 
-    def generate(
-        self,
-        question: str,
-        context: str,
-    ) -> str:
-        """Generate an answer using retrieved repository context."""
-
+    def generate(self, question: str, context: str) -> str:
         prompt = f"""
-You are RepoRAG, an AI assistant specialized in
-understanding software repositories.
+You are RepoRAG, an AI assistant that answers questions about a software repository.
 
-Answer the user's question using ONLY the provided
-repository context.
+Answer the user's question using ONLY the repository context provided below.
 
-Rules:
-- Do not invent code or files.
-- If the context does not contain enough information,
-  say that you cannot determine the answer.
-- Mention the relevant file and line numbers when available.
-- Explain your reasoning briefly.
-- Keep the answer concise and technical.
+IMPORTANT RULES:
+1. Use the context as the source of truth.
+2. Do not say that the context is missing if the answer is clearly present.
+3. Do not invent files, functions, or code.
+4. When the question asks where something is implemented, give:
+   - the file path
+   - the function/class name
+   - the line numbers
+   - a short explanation
+5. If the context genuinely does not contain the answer, say:
+   "I cannot determine the answer from the provided repository context."
+6. Be concise and technical.
 
-USER QUESTION:
-{question}
-
-REPOSITORY CONTEXT:
+Repository context:
 {context}
 
-ANSWER:
+User question:
+{question}
+
+Answer:
 """
 
         response = ollama.chat(
@@ -51,4 +43,4 @@ ANSWER:
             ],
         )
 
-        return response["message"]["content"]
+        return response["message"]["content"].strip()

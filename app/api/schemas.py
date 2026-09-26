@@ -31,8 +31,8 @@ class SourceResponse(BaseModel):
     file: str
     type: str
     name: str | None
-    start_line: int
-    end_line: int
+    start_line: int | None = None
+    end_line: int | None = None
     score: float
 
 
