@@ -1,9 +1,18 @@
+import os
+
 import ollama
 
 
 class CodeGenerator:
     def __init__(self, model_name: str = "llama3.2:3b"):
         self.model_name = model_name
+
+        self.client = ollama.Client(
+            host=os.getenv(
+                "OLLAMA_HOST",
+                "http://127.0.0.1:11434",
+            )
+        )
 
     def generate(self, question: str, context: str) -> str:
         prompt = f"""
@@ -33,7 +42,7 @@ User question:
 Answer:
 """
 
-        response = ollama.chat(
+        response = self.client.chat(
             model=self.model_name,
             messages=[
                 {

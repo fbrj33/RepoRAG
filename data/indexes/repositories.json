@@ -2,8 +2,8 @@
   "python-backend-sample_d97eb9e4": {
     "repository_id": "python-backend-sample_d97eb9e4",
     "repository_url": "https://github.com/th-santos/python-backend-sample",
-    "repository_path": "C:\\Users\\farah\\OneDrive\\Documents\\RepoRAG\\data\\repositories\\python-backend-sample_d97eb9e4",
-    "index_path": "C:\\Users\\farah\\OneDrive\\Documents\\RepoRAG\\data\\indexes\\python-backend-sample_d97eb9e4",
+    "repository_path": "/app/data/repositories/python-backend-sample_d97eb9e4",
+    "index_path": "/app/data/indexes/python-backend-sample_d97eb9e4",
     "status": "indexed"
   },
   "httpx_c9226c2f": {
